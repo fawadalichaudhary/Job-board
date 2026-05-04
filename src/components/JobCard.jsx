@@ -4,7 +4,7 @@ const JobCard = ({ job }) => {
 
 
     return (
-        <div className="bg-white p-5 rounded-xl border shadow-sm flex flex-col md:flex-row justify-between gap-4">
+        <div className=" p-5 rounded-xl border shadow-sm flex flex-col justify-between gap-4">
             <div className="space-y-2">
                 <div className="flex gap-2 flex-wrap">
                     <span className="bg-gray-100 px-3 py-1 text-sm rounded-full">

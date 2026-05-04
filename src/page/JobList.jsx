@@ -31,7 +31,7 @@ const JobList = () => {
         <div className="bg-gray-50 min-h-screen">
             <SearchJobs />
 
-            <div className="max-w-5xl mx-auto p-2 space-y-2">
+            <div className="max-w-11/12 mx-auto p-2 space-y-2">
 
                 {data?.pages?.map((page) =>
                     page.data.map((job) => (

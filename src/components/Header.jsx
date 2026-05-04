@@ -16,9 +16,12 @@ function Header() {
                     </Link>
                 </div>
                 <span className="text-gray-500">UserName</span>
-                <button className="flex items-center gap-2 border px-4 py-1.5 rounded-lg cursor-pointer">
-                    Logout
-                </button>
+                <Link to="/login" className="flex items-center gap-2 px-4 py-1.5 rounded-lg cursor-pointer">
+                    login
+                </Link>
+                <Link to="/signup" className="flex items-center border px-4 py-1.5 rounded-lg cursor-pointer">
+                    SignUp
+                </Link>
             </div>
         </header>
     )
