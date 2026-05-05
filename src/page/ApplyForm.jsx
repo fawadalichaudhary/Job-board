@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useApplyJob } from "../hooks/UseJob";
 import { useNavigate } from "react-router";
+import { useApplyJob } from "../hooks/UseJob.js";
 
 const ApplyForm = () => {
     const { mutate, isPending } = useApplyJob();
