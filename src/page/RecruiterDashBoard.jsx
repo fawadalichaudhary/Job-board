@@ -8,8 +8,6 @@ const RecruiterDashBoard = () => {
         return <p className="text-center mt-10">Loading...</p>;
     }
     const jobs = data?.data || [];
-
-
     return (
         <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
             <div className="max-w-6xl mx-auto space-y-6">
