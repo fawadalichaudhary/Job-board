@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "../Hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 function Login() {
     const [email, setEmail] = useState("");

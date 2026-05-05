@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useAuth } from "../Hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 function Header() {
     const { user, logout } = useAuth();

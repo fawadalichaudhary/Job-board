@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useJobs } from "../hooks/UseJob";
 import JobCard from "../components/JobCard";
 import SearchJobs from "../components/SearchJobs";
+import { useJobs } from "../hooks/UseJob";
 
 const JobList = () => {
     const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage,
