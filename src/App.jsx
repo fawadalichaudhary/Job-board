@@ -10,13 +10,14 @@ function App() {
   return (
     <>
       <Header />
-      <Routes>
 
+      <Routes>
+        <Route path="/" element={<JobList />} />
         <Route path="/jobs" element={<JobList />} />
         <Route path="/jobs/:jobId/apply" element={<ApplyForm />} />
         <Route path="/dashboard" element={<RecruiterDashBoard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/register" element={<SignUp />} />
       </Routes>
     </>
   );

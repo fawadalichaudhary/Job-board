@@ -1,30 +1,64 @@
-import { Link } from "react-router"
+import { Link } from "react-router";
+import { useAuth } from "../Hooks/useAuth";
 
 function Header() {
+    const { user, logout } = useAuth();
+
     return (
-        <header className="w-full border-b bg-white px-6 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-                <span className="text-lg font-semibold">JobBoard</span>
-            </div>
-            <div className="flex items-center gap-6 text-sm">
-                <div className="flex items-center gap-6">
-                    <Link to="/jobs" className="flex items-center gap-2 cursor-pointer">
+        <>
+            <header className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+                <div className="text-xl font-bold text-gray-800">
+                    JobBoard
+                </div>
+                <div className="flex items-center gap-6 text-sm">
+                    <Link
+                        to="/jobs"
+                        className="text-gray-600 hover:text-black transition"
+                    >
                         Browse Jobs
                     </Link>
-                    <Link to="/dashboard" className="flex items-center gap-2 cursor-pointer">
-                        Dashboard
-                    </Link>
+                    {user ? (
+                        <>
+                            <Link
+                                to="/dashboard"
+                                className="text-gray-600 hover:text-black transition"
+                            >
+                                Dashboard
+                            </Link>
+
+                            <div className="flex items-center gap-3">
+                                <span className="text-gray-500">
+                                    {user?.name || "User"}
+                                </span>
+
+                                <button
+                                    onClick={logout}
+                                    className="px-4 py-1.5 text-sm bg-red-500 text-white rounded-lg">
+                                    Logout
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                to="/auth/login"
+                                className="px-4 py-1.5 border rounded-lg hover:bg-gray-100 transition"
+                            >
+                                Login
+                            </Link>
+
+                            <Link
+                                to="/auth/register"
+                                className="px-4 py-1.5 bg-black text-white rounded-lg hover:bg-gray-800 transition"
+                            >
+                                Sign Up
+                            </Link>
+                        </>
+                    )}
                 </div>
-                <span className="text-gray-500">UserName</span>
-                <Link to="/login" className="flex items-center gap-2 px-4 py-1.5 rounded-lg cursor-pointer">
-                    login
-                </Link>
-                <Link to="/signup" className="flex items-center border px-4 py-1.5 rounded-lg cursor-pointer">
-                    SignUp
-                </Link>
-            </div>
-        </header>
-    )
+            </header>
+        </>
+    );
 }
 
-export default Header
+export default Header;

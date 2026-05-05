@@ -1,12 +1,13 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useAuth } from "./useAuth";
 
 const fetchJobs = ({ pageParam = 1 }) => {
     return axios
         .get("https://job-board-server-sigma.vercel.app/jobs", {
             params: {
                 page: pageParam,
-                limit: 4,
+                limit: 6,
             },
         })
         .then((res) => res.data);
@@ -28,36 +29,21 @@ export const useJobs = () => {
 };;
 
 export const useMyJobs = () => {
+    const { user } = useAuth()
     return useQuery({
         queryKey: ["my-jobs"],
+        refetchOnWindowFocus: false,
         queryFn: () => {
             return axios
                 .get("https://job-board-server-sigma.vercel.app/jobs", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
+                    params: {
+                        recruiter_id: user.id
+                    }
                 })
                 .then((res) => res.data);
-        },
-    });
-};
-
-export const useDeleteJob = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: (id) => {
-            return axios.delete(
-                `https://job-board-server-sigma.vercel.app/jobs/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries(["my-jobs"]);
         },
     });
 };
@@ -66,9 +52,14 @@ export const useDeleteJob = () => {
 export const useDashboardStats = () => {
     return useQuery({
         queryKey: ["dashboard-stats"],
+        refetchOnWindowFocus: false,
         queryFn: () => {
             return axios
-                .get("https://job-board-server-sigma.vercel.app/dashboard/stats")
+                .get("https://job-board-server-sigma.vercel.app/dashboard/stats", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                })
                 .then((res) => res.data);
         },
         retry: false,
@@ -77,11 +68,12 @@ export const useDashboardStats = () => {
 
 
 export const useApplyJob = () => {
-    return useMutation({
+    const mutation = useMutation({
         mutationFn: (data) => {
             return axios
                 .post("https://job-board-server-sigma.vercel.app/applications", data)
                 .then((res) => res.data);
         },
     });
+    return mutation;
 };

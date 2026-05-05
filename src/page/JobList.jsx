@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useJobs } from "../components/Hooks/UseJob";
+import { useJobs } from "../Hooks/UseJob";
 import JobCard from "../components/JobCard";
 import SearchJobs from "../components/SearchJobs";
 
@@ -10,7 +10,6 @@ const JobList = () => {
 
     const { ref, inView } = useInView({
         threshold: 1,
-
     });
 
     useEffect(() => {
@@ -31,14 +30,14 @@ const JobList = () => {
         <div className="bg-gray-50 min-h-screen">
             <SearchJobs />
 
-            <div className="max-w-11/12 mx-auto p-2 space-y-2">
+            <div className="max-w-11/12 mx-auto p-2 space-y-2 ">
 
                 {data?.pages?.map((page) =>
                     page.data.map((job) => (
                         <JobCard key={job.id} job={job} />
                     ))
                 )}
-                <div ref={ref} className="h-10" >  </div>
+                <div ref={ref} className="h-10" />
 
                 {isFetchingNextPage && (
                     <p className="text-center">Loading more jobs...</p>

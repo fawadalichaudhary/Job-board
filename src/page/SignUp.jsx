@@ -1,12 +1,25 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
+import { useAuth } from "../Hooks/useAuth";
 
 function SignUp() {
-    const navigate = useNavigate()
+
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    const { signup, signupLoading } = useAuth();
+
+    const handleSignup = () => {
+        signup(name, email, password)
+            .then(() => {
+                console.log("Signup success");
+            })
+            .catch(() => {
+                alert("Signup failed");
+            });
+    };
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white rounded-2xl shadow-md w-full max-w-md p-8">
@@ -58,14 +71,16 @@ function SignUp() {
                     />
                 </div>
 
-                <button className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition">
-                    Create account
+                <button
+                    onClick={handleSignup}
+                    className="w-full bg-teal-500 text-white py-2 rounded-lg font-medium hover:bg-teal-700 transition">
+                    {signupLoading ? "loading" : "Create account"}
                 </button>
 
                 <p className="text-center text-sm text-gray-500 mt-4">
-                    Already have an account?{" "}
-                    <Link to="/login"
-                        className="text-blue-600 font-medium cursor-pointer">
+                    Already have an account?
+                    <Link to="/auth/login"
+                        className="text-teal-500 font-medium cursor-pointer">
                         Log in
                     </Link>
                 </p>

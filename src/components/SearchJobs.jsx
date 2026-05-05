@@ -1,45 +1,43 @@
-
-
+import bgimg from "../assets/image.png"
 function SearchJobs() {
     return (
-        <div>
-            <div className="bg-gray-100 py-1 px-1">
-                <div className="px-5">
+        <div className="py-16"
+            style={{ backgroundImage: `url(${bgimg})` }}>
+            <div className="max-w-6xl mx-auto px-6 text-center ">
 
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                        Find your next role
-                    </h1>
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                    Find Your Dream Job Today!
+                </h1>
 
+                <p className="text-green-500 mb-8">
+                    Connecting Talent with Opportunity for Seamless Career Success
+                </p>
 
-                    <p className="text-gray-600 text-lg mb-8">
-                        Browse open positions from top companies. Apply in minutes — no
-                        account needed.
-                    </p>
-                    <div className="flex flex-col md:flex-row gap-4">
-                        <div className="flex items-center bg-white border border-gray-300 rounded-lg px-4 py-3 w-full">
-                            <input
-                                type="text"
-                                placeholder="Search by job title or company..."
-                                className="w-3/4 outline-none text-gray-700"
-                            />
-                        </div>
-                        <select className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-700 w-full md:w-40">
-                            <option>All</option>
-                            <option>Engineering</option>
-                            <option>Design</option>
-                            <option>Marketing</option>
-                        </select>
-                        <select className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-700 w-full md:w-40">
-                            <option>All</option>
-                            <option>Remote</option>
-                            <option>On-site</option>
-                            <option>Hybrid</option>
-                        </select>
-                    </div>
+                <div className="bg-white rounded-xl p-4 flex flex-col md:flex-row gap-4 shadow-lg max-w-3xl mx-auto">
+                    <input
+                        type="text"
+                        placeholder="Job Title"
+                        className="flex-1 px-4 py-3 rounded-lg border outline-none text-gray-700"
+                    />
+                    <select className="p-1.5 rounded-lg border border-gray-300 text-gray-700 appearance-none focus:ring-2 focus:ring-green-400 outline-none">
+                        <option value="">All</option>
+                        <option value="remote">Part-time</option>
+                        <option value="onsite">Full-time</option>
+                        <option value="hybrid">Internship</option>
+                    </select>
+                    <select className="p-1.5 rounded-lg border border-gray-300 text-gray-700 appearance-none focus:ring-2 focus:ring-green-400 outline-none">
+                        <option value=""> All</option>
+                        <option value="">Junior</option>
+                        <option value="">Mid</option>
+                        <option value="">Senior</option>
+                    </select>
+                    <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold">
+                        Search Job
+                    </button>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default SearchJobs
+export default SearchJobs;

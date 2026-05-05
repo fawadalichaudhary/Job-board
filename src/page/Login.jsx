@@ -1,10 +1,21 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { useAuth } from "../Hooks/useAuth";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
+    const { login, loginLoading } = useAuth()
+
+    const handleLogin = () => {
+        login(email, password).then(() => {
+            navigate("/dashboard")
+                .catch(() => {
+                    alert("Login Fail")
+                })
+        })
+    }
 
     return (
         <div className="h-screen flex items-center justify-center bg-gray-100">
@@ -31,6 +42,7 @@ function Login() {
                 <div className="mb-6">
                     <label className="block text-sm font-medium mb-1">Password</label>
                     <input
+                        placeholder="Password"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -38,14 +50,16 @@ function Login() {
                     />
                 </div>
 
-                <button className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition cursor-pointer">
-                    Log in
+                <button
+                    onClick={handleLogin}
+                    className="w-full bg-teal-500 text-white py-2 rounded-lg font-medium cursor-pointer">
+                    {loginLoading ? "...loading" : "Login"}
                 </button>
 
                 <p className="text-center text-sm text-gray-500 mt-4">
                     Don't have an account?
-                    <Link to="/signup" className="text-blue-600 font-medium cursor-pointer">
-                        Sign up
+                    <Link to="/auth/register" className="text-teal-500 font-medium cursor-pointer">
+                        register
                     </Link>
                 </p>
             </div>
