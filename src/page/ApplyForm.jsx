@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useApplyJob } from "../Hooks/UseJob";
+import { useApplyJob } from "../hooks/UseJob";
 import { useNavigate } from "react-router";
 
 const ApplyForm = () => {
