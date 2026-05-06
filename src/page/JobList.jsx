@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import JobCard from "../components/JobCard";
 import SearchJobs from "../components/SearchJobs";
-import { useJobs } from "../hooks/useJob";
+import { useJobs } from "@/hooker/useJob";
 
 const JobList = () => {
     const [filters, setFilters] = useState({});
