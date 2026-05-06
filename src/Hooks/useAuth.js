@@ -12,6 +12,7 @@ export const useAuth = () => {
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem("user");
         return savedUser ? JSON.parse(savedUser) : null;
+
     });
 
     useEffect(() => {
@@ -31,6 +32,7 @@ export const useAuth = () => {
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.recruiter));
+            navigate("/dashboard")
         },
     });
 

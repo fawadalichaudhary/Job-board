@@ -1,8 +1,9 @@
 import { Link } from "react-router";
-import { useAuth } from "../hooks/useAuth.js";
+import { useAuthcontext } from "../context/AuthContext";
 
 function Header() {
-    const { user, logout } = useAuth();
+    const { user, logout } = useAuthcontext();
+    console.log({ user });
 
     return (
         <>
@@ -13,7 +14,7 @@ function Header() {
                 <div className="flex items-center gap-6 text-sm">
                     <Link
                         to="/jobs"
-                        className="text-gray-600 hover:text-black transition"
+                        className="text-gray-600 hover:text-black transition text-xl"
                     >
                         Browse Jobs
                     </Link>
@@ -21,7 +22,7 @@ function Header() {
                         <>
                             <Link
                                 to="/dashboard"
-                                className="text-gray-600 hover:text-black transition"
+                                className="text-gray-600 hover:text-black transition text-xl"
                             >
                                 Dashboard
                             </Link>

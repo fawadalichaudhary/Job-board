@@ -2,20 +2,24 @@ import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuth } from "./useAuth";
 
-const fetchJobs = ({ pageParam = 1 }) => {
+const fetchJobs = ({ pageParam = 1, queryKey }) => {
+    const [, filters] = queryKey
     return axios
         .get("https://job-board-server-sigma.vercel.app/jobs", {
             params: {
                 page: pageParam,
                 limit: 6,
+                search: filters?.title,
+                job_type: filters?.type,
+                experience_level: filters?.level,
             },
         })
         .then((res) => res.data);
 };
 
-export const useJobs = () => {
+export const useJobs = (filters) => {
     return useInfiniteQuery({
-        queryKey: ["jobs"],
+        queryKey: ["jobs", filters],
         refetchOnWindowFocus: false,
         queryFn: fetchJobs,
 

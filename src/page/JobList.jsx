@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import JobCard from "../components/JobCard";
 import SearchJobs from "../components/SearchJobs";
 import { useJobs } from "../hooks/UseJob.js";
 
 const JobList = () => {
+    const [filters, setFilters] = useState({});
+
     const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage,
-    } = useJobs();
+    } = useJobs(filters);
 
     const { ref, inView } = useInView({
         threshold: 1,
@@ -28,7 +30,7 @@ const JobList = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen">
-            <SearchJobs />
+            <SearchJobs onSearch={setFilters} />
 
             <div className="max-w-11/12 mx-auto p-2 space-y-2 ">
 

@@ -1,20 +1,22 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { useAuth } from "../hooks/useAuth.js";
+import { Link } from "react-router";
+import { useAuthcontext } from "../context/AuthContext";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate()
-    const { login, loginLoading } = useAuth()
-
+    const { login, loginLoading } = useAuthcontext();
     const handleLogin = () => {
-        login(email, password).then(() => {
-            navigate("/dashboard")
-                .catch(() => {
-                    alert("Login Fail")
-                })
-        })
+        login(email, password)
+            .then(() => {
+                alert("login success");
+            })
+            .catch(() => {
+                alert("Login Fail");
+                setEmail("")
+                setPassword("")
+
+            });
     }
 
     return (
