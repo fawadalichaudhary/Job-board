@@ -1,3 +1,4 @@
+import DashBoardCard from "../components/DashBoardCard";
 import { useMyJobs } from "../hooks/useJob"
 
 const RecruiterDashBoard = () => {
@@ -34,13 +35,7 @@ const RecruiterDashBoard = () => {
                 </div>
                 <div className="space-y-4">
                     {jobs.length > 0 ? (
-                        jobs.map((job) => (
-                            <div key={job.id}>
-                                <p>
-                                    {job.title}
-                                </p>
-                            </div>
-                        ))
+                        <DashBoardCard jobs={jobs} />
                     ) : (
                         <p className="text-center text-gray-500">No jobs found</p>
                     )}
