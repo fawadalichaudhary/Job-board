@@ -32,25 +32,46 @@ export const useJobs = (filters) => {
     });
 };;
 
+const fetchMyJobs = ({ pageParam = 1, queryKey }) => {
+    const [, userId] = queryKey;
+
+    return axios
+        .get("https://job-board-server-sigma.vercel.app/jobs", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            params: {
+                recruiter_id: userId,
+                page: pageParam,
+                limit: 10,
+            },
+        })
+        .then((res) => res.data);
+};
+
 export const useMyJobs = () => {
-    const { user } = useAuth()
-    return useQuery({
-        queryKey: ["my-jobs"],
-        refetchOnWindowFocus: false,
-        queryFn: () => {
-            return axios
-                .get("https://job-board-server-sigma.vercel.app/jobs", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                    params: {
-                        recruiter_id: user.id
-                    }
-                })
-                .then((res) => res.data);
+    const { user } = useAuth();
+
+    return useInfiniteQuery({
+        queryKey: ["my-jobs", user?.id],
+        queryFn: fetchMyJobs,
+        enabled: !!user?.id,
+
+        getNextPageParam: (lastPage) => {
+            if (lastPage.pagination?.hasMore) {
+                return lastPage.pagination.page + 1;
+            }
+            return undefined;
+        },
+
+        getPreviousPageParam: (firstPage) => {
+            if (firstPage.pagination?.page > 1) {
+                return firstPage.pagination.page - 1;
+            }
+            return undefined;
         },
     });
-};
+}
 
 
 export const useDashboardStats = () => {
@@ -80,4 +101,17 @@ export const useApplyJob = () => {
         },
     });
     return mutation;
+};
+export const useCreateJob = () => {
+    return useMutation({
+        mutationFn: (data) => {
+            return axios
+                .post("https://job-board-server-sigma.vercel.app/jobs", data, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                })
+                .then((res) => res.data);
+        },
+    });
 };

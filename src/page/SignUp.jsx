@@ -14,7 +14,7 @@ function SignUp() {
     const handleSignup = () => {
         signup(name, email, password)
             .then(() => {
-                console.log("Signup success");
+                alert("Signup success");
             })
             .catch(() => {
                 alert("Signup failed");

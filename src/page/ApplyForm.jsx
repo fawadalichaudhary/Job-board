@@ -18,10 +18,7 @@ const ApplyForm = () => {
     const [coverLetter, setCoverLetter] = useState(null);
 
     const nextStep = () => setStep(step + 1);
-    console.log({ step });
-
     const prevStep = () => setStep(step - 1);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -39,7 +36,7 @@ const ApplyForm = () => {
         mutate(data, {
             onSuccess: () => {
                 navigate("/");
-                setStep(1)
+
             },
         });
     };
@@ -133,7 +130,7 @@ const ApplyForm = () => {
                         <button
                             type="button"
                             disabled={isPending}
-                            className="px-6 py-2 bg-teal-500 text-white rounded-lg"
+                            className="px-6 py-2 bg-teal-500 text-white rounded-lg cursor-pointer"
                         >
                             {isPending ? "Submitting..." : "Submit"}
                         </button>
