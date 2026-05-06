@@ -1,5 +1,5 @@
 import DashBoardCard from "../components/DashBoardCard";
-import { useMyJobs } from "../hooker/useJob"
+import { useMyJobs } from "../hooks/useJob"
 
 const RecruiterDashBoard = () => {
     const { data, isLoading } = useMyJobs();
