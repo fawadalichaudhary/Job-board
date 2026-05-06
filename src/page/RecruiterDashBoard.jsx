@@ -1,4 +1,4 @@
-import { useMyJobs } from "../hooks/useJob.js"
+import { useMyJobs } from "../hooks/useJob"
 
 const RecruiterDashBoard = () => {
     const { data, isLoading } = useMyJobs();
