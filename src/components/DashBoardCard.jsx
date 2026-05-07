@@ -3,9 +3,11 @@ import {
 } from "./ui/table";
 import { Button } from "./ui/button";
 import { useDeleteJob } from "@/hooks/useJob";
+import { Link } from "react-router";
 
 const DashBoardCard = ({ jobs }) => {
     const deleteJobMutation = useDeleteJob();
+
 
     const handleDelete = (id) => {
         const confirmDelete = window.confirm(
@@ -56,10 +58,12 @@ const DashBoardCard = ({ jobs }) => {
                                     Delete
                                 </Button>
 
-                                <Button
+                                <Link
+                                    className="p-2 bg-gray-500 rounded-md"
+                                    to={`/dashboard/jobs/${job.id}/application`}
                                 >
                                     Applicants
-                                </Button>
+                                </Link>
                             </TableCell>
                         </TableRow>
                     ))}

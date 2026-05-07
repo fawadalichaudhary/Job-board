@@ -19,7 +19,7 @@ function App() {
         <Route path="/dashboard" element={<RecruiterDashBoard />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<SignUp />} />
-        <Route path="/dashboard/jobs/:jobId/applicants" element={<JobApplication />} />
+        <Route path="/dashboard/jobs/:jobId/application" element={<JobApplication />} />
       </Routes>
     </>
   );
