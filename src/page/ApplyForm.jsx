@@ -16,10 +16,10 @@ const ApplyForm = () => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [experience, setExperience] = useState(0);
-    const [role, setRole] = useState("");
+    const [current_role, setCurrent_role] = useState("");
     const [description, setDescription] = useState("");
     const [years_of_experience, setYears_of_experince] = useState("");
-    const [coverLetter, setCoverLetter] = useState("");
+    const [cover_letter, setCover_letter] = useState("");
     const [resumeFile, setResumeFile] = useState(null);
 
     const handleSubmit = async (e) => {
@@ -28,21 +28,22 @@ const ApplyForm = () => {
         let resumeUrl = "";
 
         if (resumeFile) {
-            resumeUrl = uploadResume(resumeFile);
+            resumeUrl = await uploadResume(resumeFile);
         }
+        console.log({ resumeUrl });
 
         applyJob(
             {
-                jobId: jobId,
+                job_id: jobId,
                 first_name: firstName,
                 last_name: lastName,
                 email,
                 phone,
                 experience,
                 years_of_experience,
-                role,
+                current_role,
                 description,
-                coverLetter,
+                cover_letter,
                 resume_url: resumeUrl,
             },
             {
@@ -101,7 +102,7 @@ const ApplyForm = () => {
                         />
                         <input
                             placeholder="Role"
-                            onChange={(e) => setRole(e.target.value)}
+                            onChange={(e) => setCurrent_role(e.target.value)}
                             className="border p-3 rounded-lg w-full"
                         />
                         <textarea
@@ -117,7 +118,7 @@ const ApplyForm = () => {
                     <>
                         <textarea
                             placeholder="Cover Letter"
-                            onChange={(e) => setCoverLetter(e.target.value)}
+                            onChange={(e) => setCover_letter(e.target.value)}
                             className="border p-3 rounded-lg w-full"
                             rows={4}
                         />

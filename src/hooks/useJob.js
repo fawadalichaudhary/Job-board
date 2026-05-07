@@ -116,10 +116,9 @@ export const useCreateJob = () => {
     });
 };
 
-const uploadResume = async (file) => {
-    if (!file) return "";
 
-    const presignRes = await axios.post(
+const uploadResume = async (file) => {
+    const res = await axios.post(
         "https://job-board-server-sigma.vercel.app/upload/presign",
         {
             filename: file.name,
@@ -127,23 +126,22 @@ const uploadResume = async (file) => {
         }
     );
 
-    const { uploadUrl, publicUrl } = presignRes.data;
-
-    await axios.post(uploadUrl, file, {
-        headers: {
-            "Content-Type": file.type,
-        },
-    });
-
-    return publicUrl;
+    return res.data;
 };
 
 export const useUploadResume = () => {
     return useMutation({
         mutationFn: uploadResume,
+
+        onSuccess: (data) => {
+            console.log("Resume uploaded:", data);
+        },
+
+        onError: (error) => {
+            console.error("Upload failed:", error);
+        },
     });
 };
-
 
 export const useDeleteJob = () => {
     const queryClient = useQueryClient();
