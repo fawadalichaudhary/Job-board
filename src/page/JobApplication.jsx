@@ -3,17 +3,15 @@ import { useParams } from "react-router";
 import {
     Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
-
-import { Button } from "@/components/ui/button";
 import { useJobApplicants } from "@/hooks/useJob";
 
 const JobApplication = () => {
-    const { job_Id } = useParams();
+    const { jobId } = useParams();
 
     const { data, isLoading, isError } =
-        useJobApplicants(job_Id);
+        useJobApplicants(jobId);
 
-    const applicants = data?.applications || [];
+    const applicants = data?.data || [];
 
     if (isLoading) {
         return (
@@ -63,8 +61,8 @@ const JobApplication = () => {
                             applicants.map((applicant) => (
                                 <TableRow key={applicant.id}>
                                     <TableCell className="font-medium">
-                                        {applicant.first_name}{" "}
-                                        {applicant.last_name}
+                                        {applicant.firstName}
+                                        {applicant.lastName}
                                     </TableCell>
 
                                     <TableCell>
@@ -76,7 +74,7 @@ const JobApplication = () => {
                                     </TableCell>
 
                                     <TableCell>
-                                        {applicant.current_role}
+                                        {applicant.currentRole}
                                     </TableCell>
 
                                     <TableCell >
@@ -93,9 +91,7 @@ const JobApplication = () => {
                                     </TableCell>
 
                                     <TableCell>
-                                        <Button size="sm">
-                                            Resume
-                                        </Button>
+                                        Resume
                                     </TableCell>
                                 </TableRow>
                             ))

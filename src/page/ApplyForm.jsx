@@ -1,118 +1,144 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import { useApplyJob } from "../hooks/useJob";
+import { useNavigate, useParams } from "react-router";
+import { useApplyJob, useUploadResume } from "../hooks/useJob";
 
 const ApplyForm = () => {
-    const { mutate, isPending } = useApplyJob();
     const navigate = useNavigate();
-
+    const { mutate: applyJob, isPending } = useApplyJob();
+    const { mutateAsync: uploadResume, isPending: uploading } =
+        useUploadResume();
 
     const [step, setStep] = useState(1);
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [phone, setPhone] = useState(null);
-    const [experience, setExperience] = useState(null);
-    const [role, setRole] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [coverLetter, setCoverLetter] = useState(null);
+    const { jobId } = useParams()
 
-    const nextStep = () => setStep(step + 1);
-    const prevStep = () => setStep(step - 1);
-    const handleSubmit = (e) => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [experience, setExperience] = useState(0);
+    const [role, setRole] = useState("");
+    const [description, setDescription] = useState("");
+    const [years_of_experience, setYears_of_experince] = useState("");
+    const [coverLetter, setCoverLetter] = useState("");
+    const [resumeFile, setResumeFile] = useState(null);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const data = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: phone,
-            experience: experience,
-            role: role,
-            description: description,
-            coverLetter: coverLetter,
-        };
+        let resumeUrl = "";
 
-        mutate(data, {
-            onSuccess: () => {
-                navigate("/");
+        if (resumeFile) {
+            resumeUrl = uploadResume(resumeFile);
+        }
 
+        applyJob(
+            {
+                jobId: jobId,
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                phone,
+                experience,
+                years_of_experience,
+                role,
+                description,
+                coverLetter,
+                resume_url: resumeUrl,
             },
-        });
+            {
+                onSuccess: () => navigate("/"),
+            }
+        );
     };
+
     return (
         <div className="min-h-screen bg-gray-50 p-6 md:p-10">
-            <form className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-md space-y-6"
+            <form
                 onSubmit={handleSubmit}
+                className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-md space-y-6"
             >
                 <h2 className="text-2xl font-semibold text-gray-800">
                     Apply for Job
                 </h2>
+
                 {step === 1 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input placeholder="First Name"
+                        <input
+                            placeholder="First Name"
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="border p-3 rounded-lg" />
+                            className="border p-3 rounded-lg"
+                        />
                         <input
+                            placeholder="Last Name"
                             onChange={(e) => setLastName(e.target.value)}
-                            placeholder="Last Name" className="border p-3 rounded-lg" />
+                            className="border p-3 rounded-lg"
+                        />
                         <input
+                            placeholder="Email"
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email" className="border p-3 rounded-lg" />
+                            className="border p-3 rounded-lg"
+                        />
                         <input
+                            placeholder="Phone"
                             onChange={(e) => setPhone(e.target.value)}
-                            placeholder="Phone Number" className="border p-3 rounded-lg" />
+                            className="border p-3 rounded-lg"
+                        />
                     </div>
                 )}
+
                 {step === 2 && (
                     <>
                         <input
+                            placeholder="Experience"
                             onChange={(e) => setExperience(e.target.value)}
-                            placeholder="Years of Experience"
                             className="border p-3 rounded-lg w-full"
                         />
-
                         <input
-                            onChange={(e) => setRole(e.target.value)}
-                            placeholder="Current Role"
+                            type="number"
+                            placeholder="Years Of Experience"
+                            onChange={(e) => setYears_of_experince(parseInt(e.target.value))}
                             className="border p-3 rounded-lg w-full"
                         />
-
+                        <input
+                            placeholder="Role"
+                            onChange={(e) => setRole(e.target.value)}
+                            className="border p-3 rounded-lg w-full"
+                        />
                         <textarea
+                            placeholder="Description"
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Describe your experience"
                             className="border p-3 rounded-lg w-full"
                             rows={4}
                         />
                     </>
                 )}
+
                 {step === 3 && (
                     <>
                         <textarea
-                            onChange={(e) => setCoverLetter(e.target.value)}
                             placeholder="Cover Letter"
+                            onChange={(e) => setCoverLetter(e.target.value)}
                             className="border p-3 rounded-lg w-full"
                             rows={4}
                         />
 
-                        <div className="border rounded-lg p-4 bg-gray-50">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Upload Resume (PDF/DOC)
-                            </label>
-                            <input
-                                type="file"
-                                accept=".pdf,.doc,.docx"
-                                className="w-full"
-                            />
-                        </div>
+                        <input
+                            type="file"
+                            accept=".pdf,.doc,.docx"
+                            onChange={(e) =>
+                                setResumeFile(e.target.files[0])
+                            }
+                            className="w-full"
+                        />
                     </>
                 )}
-                <div className="flex justify-between pt-4">
+
+                <div className="flex justify-between">
                     {step > 1 && (
                         <button
                             type="button"
-                            onClick={prevStep}
-                            className="px-6 py-2 bg-gray-300 rounded-lg"
+                            onClick={() => setStep(step - 1)}
+                            className="px-4 py-2 bg-gray-300 rounded"
                         >
                             Back
                         </button>
@@ -121,18 +147,22 @@ const ApplyForm = () => {
                     {step < 3 ? (
                         <button
                             type="button"
-                            onClick={nextStep}
-                            className="px-6 py-2 bg-teal-500 text-white rounded-lg"
+                            onClick={() => setStep(step + 1)}
+                            className="px-4 py-2 bg-teal-500 text-white rounded"
                         >
                             Next
                         </button>
                     ) : (
                         <button
-
-                            disabled={isPending}
-                            className="px-6 py-2 bg-teal-500 text-white rounded-lg cursor-pointer"
+                            type="submit"
+                            disabled={isPending || uploading}
+                            className="px-4 py-2 bg-teal-500 text-white rounded"
                         >
-                            {isPending ? "Submitting..." : "Submit"}
+                            {uploading
+                                ? "Uploading..."
+                                : isPending
+                                    ? "Submitting..."
+                                    : "Submit"}
                         </button>
                     )}
                 </div>

@@ -115,6 +115,36 @@ export const useCreateJob = () => {
         },
     });
 };
+
+const uploadResume = async (file) => {
+    if (!file) return "";
+
+    const presignRes = await axios.post(
+        "https://job-board-server-sigma.vercel.app/upload/presign",
+        {
+            filename: file.name,
+            contentType: file.type,
+        }
+    );
+
+    const { uploadUrl, publicUrl } = presignRes.data;
+
+    await axios.post(uploadUrl, file, {
+        headers: {
+            "Content-Type": file.type,
+        },
+    });
+
+    return publicUrl;
+};
+
+export const useUploadResume = () => {
+    return useMutation({
+        mutationFn: uploadResume,
+    });
+};
+
+
 export const useDeleteJob = () => {
     const queryClient = useQueryClient();
 
@@ -131,17 +161,17 @@ export const useDeleteJob = () => {
         },
 
         onSuccess: () => {
-            queryClient.invalidateQueries(["my-jobs"]);
+            queryClient.invalidateQueries({ queryKey: ["my-jobs"] });
         },
     });
 };
-export const useJobApplicants = (job_Id) => {
+export const useJobApplicants = (jobId) => {
     return useQuery({
-        queryKey: ["applications", job_Id],
+        queryKey: ["applications", jobId],
 
         queryFn: async () => {
             const res = await axios.get(
-                `https://job-board-server-sigma.vercel.app/jobs/${job_Id}/applications`,
+                `https://job-board-server-sigma.vercel.app/jobs/${jobId}/applications`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -152,7 +182,7 @@ export const useJobApplicants = (job_Id) => {
             return res.data;
         },
 
-        enabled: !!job_Id,
+        enabled: !!jobId,
         refetchOnWindowFocus: false,
     });
 };
