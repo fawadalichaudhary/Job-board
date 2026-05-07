@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuth } from "./useAuth";
 
@@ -64,9 +64,9 @@ export const useMyJobs = () => {
             return undefined;
         },
 
-        getPreviousPageParam: (firstPage) => {
-            if (firstPage.pagination?.page > 1) {
-                return firstPage.pagination.page - 1;
+        getPreviousPageParam: (lastPage) => {
+            if (lastPage.pagination?.page > 1) {
+                return lastPage.pagination.page - 1;
             }
             return undefined;
         },
@@ -113,5 +113,46 @@ export const useCreateJob = () => {
                 })
                 .then((res) => res.data);
         },
+    });
+};
+export const useDeleteJob = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (jobId) => {
+            return axios.delete(
+                `https://job-board-server-sigma.vercel.app/jobs/${jobId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+        },
+
+        onSuccess: () => {
+            queryClient.invalidateQueries(["my-jobs"]);
+        },
+    });
+};
+export const useJobApplicants = (job_Id) => {
+    return useQuery({
+        queryKey: ["applications", job_Id],
+
+        queryFn: async () => {
+            const res = await axios.get(
+                `https://job-board-server-sigma.vercel.app/jobs/${job_Id}/applications`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+
+            return res.data;
+        },
+
+        enabled: !!job_Id,
+        refetchOnWindowFocus: false,
     });
 };

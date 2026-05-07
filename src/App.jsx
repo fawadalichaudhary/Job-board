@@ -5,6 +5,7 @@ import ApplyForm from "./page/ApplyForm";
 import RecruiterDashBoard from "./page/RecruiterDashBoard";
 import Login from "./page/Login"
 import SignUp from "./page/SignUp"
+import JobApplication from "./page/JobApplication";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/dashboard" element={<RecruiterDashBoard />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<SignUp />} />
+        <Route path="/dashboard/jobs/:jobId/applicants" element={<JobApplication />} />
       </Routes>
     </>
   );

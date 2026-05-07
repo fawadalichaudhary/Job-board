@@ -53,7 +53,7 @@ const RecruiterDashBoard = () => {
                             <DashBoardCard jobs={jobs} />
                             <div className="flex justify-center gap-4 mt-6">
                                 <button
-                                    onClick={() => fetchPreviousPage()}
+                                    onClick={fetchPreviousPage}
                                     disabled={!hasPreviousPage}
                                     className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
                                 >
@@ -61,7 +61,7 @@ const RecruiterDashBoard = () => {
                                 </button>
 
                                 <button
-                                    onClick={() => fetchNextPage()}
+                                    onClick={fetchNextPage}
                                     disabled={!hasNextPage}
                                     className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
                                 >

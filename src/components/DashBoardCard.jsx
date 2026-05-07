@@ -2,8 +2,20 @@ import {
     Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "./ui/table";
 import { Button } from "./ui/button";
+import { useDeleteJob } from "@/hooks/useJob";
 
 const DashBoardCard = ({ jobs }) => {
+    const deleteJobMutation = useDeleteJob();
+
+    const handleDelete = (id) => {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this job?"
+        );
+
+        if (!confirmDelete) return;
+
+        deleteJobMutation.mutate(id);
+    };
     return (
         <div className="border rounded-xl p-4 bg-white">
             <Table>
@@ -38,6 +50,8 @@ const DashBoardCard = ({ jobs }) => {
 
                                 <Button
                                     className="bg-red-500"
+                                    onClick={() => handleDelete(job.id)}
+                                    disabled={deleteJobMutation.isPending}
                                 >
                                     Delete
                                 </Button>

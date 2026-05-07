@@ -128,7 +128,7 @@ const ApplyForm = () => {
                         </button>
                     ) : (
                         <button
-                            type="button"
+
                             disabled={isPending}
                             className="px-6 py-2 bg-teal-500 text-white rounded-lg cursor-pointer"
                         >
